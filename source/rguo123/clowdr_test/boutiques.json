@@ -1,0 +1,27 @@
+{
+  "name": "test_guo",
+  "tool-version": "1.0.0",
+  "description": "clowdr + boutique test",
+  "command-line": "python test.py [FILENAME]",
+  "inputs": [
+    {
+      "id": "name",
+      "name": "file name",
+      "description": "file name",
+      "optional": false,
+      "command-line-flag": "-n",
+      "value-key": "[FILENAME]",
+      "type": "String"
+    }
+  ],
+  "output-files": [
+    {
+    "id" : "outfile",
+    "name" : "output",
+    "description" : "mandatory output file",
+    "path-template" : ".",
+    "optional" : true
+    }
+  ],
+  "schema-version": "0.5"
+}
