@@ -14,9 +14,9 @@ def get_collman_em_cube(token,z_range,x_range,y_range):
     #jsoncube = cube.tolist() #to load, use np.array(json.loads(cube)['data'])
     #with open('cube.pickle', 'wb') as f:
     #    pickled = pickle.dump(cube, f)
-    metadata = {'id':'01_00_00','dim':[z_range,x_range,y_range],'annotaters':[]} #TODO: id not helpful?
+    metadata = {'id':'00_00_00','dim':[z_range,x_range,y_range],'annotaters':[]} #TODO: id not helpful?
     metacube = {'metadata':metadata, 'data':cube} #TODO: make a class
-    with open('metacube.pickle', 'wb') as f:
+    with open(metadata['id'] + '.pickle', 'wb') as f:
         metapickled = pickle.dump(metacube, f)
 
 def get_cube_example():

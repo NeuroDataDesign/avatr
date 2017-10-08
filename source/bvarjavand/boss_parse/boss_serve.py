@@ -19,10 +19,10 @@ def load_slice(filename, bookmark_file): #expects pickle file
         metadata = data["metadata"]
         cube = data["data"]
         serve = cube[bookmark]
-        img_name = str(bookmark).join(metadata["id"].split("_")[1:])  + ".jpg"
+        img_name = str(bookmark) + "_" + metadata["id"] + ".png"
 
         im = Image.fromarray(serve)
-        im.save(img_name)
+        im.save(img_name, "PNG")
         bookmark += 1
         save_bookmark(bookmark, bookmark_file)
     except:
@@ -30,7 +30,7 @@ def load_slice(filename, bookmark_file): #expects pickle file
 
 def test_load():
     save_bookmark(0, "bookmark.pickle")
-    load_slice("metacube.pickle", "bookmark.pickle")
+    load_slice("01_00_00.pickle", "bookmark.pickle")
 
 
 if __name__ == '__main__':

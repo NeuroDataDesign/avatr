@@ -24,7 +24,7 @@ class NeuroDataResource:
                 raise
 
     def assert_channel_exists(self, channel):
-            return channel in self._chanList.keys()
+        return channel in self._chanList.keys()
 
 
     def get_cutout(self, chan, zRange=None, yRange=None, xRange=None):
