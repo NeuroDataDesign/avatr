@@ -1,3 +1,4 @@
 /passwords
 *.pickle
 .DS_Store
+*.cfg
