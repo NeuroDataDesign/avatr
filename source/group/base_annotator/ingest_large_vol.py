@@ -119,7 +119,7 @@ def read_img_stack(img_size, datatype, z_slices, base_fname, base_path, extensio
         if im is None and warn_missing_files:
             continue
         print(im_array.shape)
-        im_array[idx, :, :] = np.array(im)[:,:,z_slice]
+        im_array[idx, :, :] = np.array(im)#[:,:,z_slice]
 
     send_msg('{} Finished reading image data'.format(get_formatted_datetime()))
     return im_array
