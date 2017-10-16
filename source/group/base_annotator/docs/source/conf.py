@@ -166,6 +166,3 @@ texinfo_documents = [
      author, 'NeuroDataAnnotation', 'One line description of project.',
      'Miscellaneous'),
 ]
-
-
-
