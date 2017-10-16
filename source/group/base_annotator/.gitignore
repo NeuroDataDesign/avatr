@@ -103,5 +103,5 @@ ENV/
 /src
 log.txt
 .vscode/
-neurodata.cfg
+*.cfg
 slack_token
