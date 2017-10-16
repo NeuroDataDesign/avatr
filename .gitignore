@@ -2,3 +2,4 @@
 *.pickle
 .DS_Store
 *.cfg
+neurodata.cfg
