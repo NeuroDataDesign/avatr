@@ -1,3 +1,4 @@
+neurodata.cfg
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -103,5 +104,5 @@ ENV/
 /src
 log.txt
 .vscode/
-*.cfg
+
 slack_token
