@@ -25,7 +25,7 @@ slack_username = ""  # your slack username
 # boss metadata
 collection = 'Look_At_It'
 experiment = 'EXP1'
-channel = 'CH1'
+channel = 'test'
 
 # data_directory _with_ trailing slash (doesn't output correct paths on Windows)
 data_directory = "DATA/"
