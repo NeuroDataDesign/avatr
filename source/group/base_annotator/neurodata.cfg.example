@@ -1,0 +1,4 @@
+[Default]
+protocol = https
+host = api.boss.neurodata.io
+token = INSERT_TOKEN_HERE
