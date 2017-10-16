@@ -23,9 +23,9 @@ slack_token = "xoxp-19730450897-126449273043-255840866096-e5fdda4a769d6df6d5df04
 slack_username = "rguo123"  # your slack username
 
 # boss metadata
-collection = 'LOOKATIT2'
-experiment = 'EXP3'
-channel = 'Ch2'
+collection = 'Look_At_It'
+experiment = 'EXP1'
+channel = 'CH1'
 
 # data_directory _with_ trailing slash (doesn't output correct paths on Windows)
 data_directory = "DATA/"

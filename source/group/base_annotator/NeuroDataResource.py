@@ -47,7 +47,7 @@ class NeuroDataResource:
 
 def save_image(datadir, filename, data):
     try:
-        filename = datadir + "/" + filename
+        filename = datadir + filename
         io.imsave(filename, data)
     except:
         raise Exception("Data could not be saved")
@@ -73,8 +73,8 @@ def get_host_token(filename = "neurodata.cfg"): #expects neurodata.cfg file form
     if token == None:
         raise Exception("Token not found\n")
         sys.exit(1)
-    print("Loaded host: " host)
-    print("Loaded token: " token)
+    print("Loaded host: " + host)
+    print("Loaded token: " + token)
     return host, token
 
 
@@ -88,7 +88,7 @@ def get_validated_user_input(prompt, type_):
             continue
     return ui
 
-def user_get_neurodata_resource():
+def user_get_neurodata_resource(host, token):
     print("\n Specify Boss Resource, User input REQUIRED \n")
 
     col = get_validated_user_input("Collection: ", "str")
@@ -105,9 +105,9 @@ def user_get_neurodata_resource():
                                   [{'name': channel, 'dtype': dtype}])
     print("Successfully Loaded Boss Resource!\n")
 
-    return myResource
+    return myResource, channel
 
-def user_get_cutout(resource):
+def user_get_cutout(resource, channel):
     print("\n Specify cutout, User input REQUIRED \n")
 
     z_str = get_validated_user_input("Z Range, Format: <ZSTART> <ZEND>: ", "str")
@@ -117,21 +117,25 @@ def user_get_cutout(resource):
     y_range = [int(y) for y in y_str.split(" ")]
 
     x_str = get_validated_user_input("X Range, Format: <XSTART> <XEND>: ", "str")
-    x_range = [int(x) for x in z_str.split(" ")]
+    x_range = [int(x) for x in x_str.split(" ")]
 
     print("\n Getting Cutout... \n")
-    data = resource.get_cutout(resource._chanList[0]["name"],
+    data = resource.get_cutout(channel,
                                z_range,
                                y_range,
                                x_range)
     return data
 
-def user_save_image():
+def user_save_data(data):
     print("\n Save Data \n")
+
+    data_path = get_validated_user_input("Data Dir, Format: path/to/data/: ", "str")
+    filename = get_validated_user_input("Filename (.tif recommended): ", "str")
+    save_image(data_path, filename, data)
 
 
 if __name__ == '__main__':
     host, token = get_host_token()
-
-    myResource = user_get_neurodata_resource()
-    data = user_get_cutout()
+    myResource, channel = user_get_neurodata_resource(host, token) ## TODO: Make this less jank, figure out channel resource
+    data = user_get_cutout(myResource, channel) ##TODO: Make this less jank
+    user_save_data(data)
