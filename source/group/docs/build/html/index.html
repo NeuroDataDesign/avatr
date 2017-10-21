@@ -1,0 +1,165 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Welcome to NeuroData Annotation’s documentation! &#8212; NeuroData Annotation 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+
+  <div class="section" id="welcome-to-neurodata-annotation-s-documentation">
+<h1>Welcome to NeuroData Annotation’s documentation!<a class="headerlink" href="#welcome-to-neurodata-annotation-s-documentation" title="Permalink to this headline">¶</a></h1>
+<h3>Pulling images from the BOSS, annotating them, and pushing annotated images.</h3>
+<ol class="arabic simple">
+<li><dl class="first docutils">
+<dt>Clone annotation repo. In Terminal type:</dt>
+<dd><code class="docutils literal"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/rguo123/NeuroData_Annotate.git</span></code></dd>
+</dl>
+</li>
+<li>Install dependences by typing: <code class="docutils literal"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code></li>
+<li>Get BOSS API token by logging in to <a class="reference external" href="https://api.boss.neurodata.io/">https://api.boss.neurodata.io/</a>. Note: You need resource manager permissions to upload data to the BOSS.</li>
+<li>Create <code class="docutils literal"><span class="pre">neurodata.cfg</span></code> file and insert BOSS token as shown below:</li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">[</span>Default<span class="o">]</span>
+<span class="nv">protocol</span> <span class="o">=</span> https
+<span class="nv">host</span> <span class="o">=</span> api.boss.neurodata.io
+<span class="hll"><span class="nv">token</span> <span class="o">=</span> INSERT TOKEN HERE
+</span></pre></div>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="5">
+<li>Create a new directory to hold your data by typing <code class="docutils literal"><span class="pre">mkdir</span> <span class="pre">DATA</span></code></li>
+<li>Pull data from BOSS by typing <code class="docutils literal"><span class="pre">python3</span> <span class="pre">NeuroDataResource.py</span></code> in terminal and following the input prompt.</li>
+</ol>
+<div class="figure align-center">
+<img alt="_images/ndr_show.png" src="_images/ndr_show.png" />
+</div>
+<ol class="arabic simple" start="6">
+<li>Annotate with FIJI:
+  <ol type="a">
+    <li>Install onto your system using <a class="reference external" href="https://imagej.net/Fiji/Downloads">https://imagej.net/Fiji/Downloads</a>.</li>
+    <li>Open FJII, and start a new blank TrakEM2.</li>
+    <img alt="_images/new_blank.png" src="_images/new_blank.png" />
+    <li>Navigate to the folder of you image volume, and select "open".</li>
+    <li>In your TrakEM2 properties, right click on "anything" in the template column and add a new "area_list".</li>
+    <img alt="_images/new_area_list.png" src="_images/new_area_list.png" />
+    <li>Drag the entire "anything" folder into "Unitled 0" in the middle column.</li>
+    <li>Right click the nested "anything" folder and add a "new area list"</li>
+    <li>This should have changed your ImageJ canvas. Now, drag your volume from your folder into the canvas.</li>
+    <li>In the popup window, make sure that "Resize canvas to fit stack" is checked.</li>
+    <li>Annotate Your Data by drawing all over it.</li>
+    <li>When done, right click your canvas and select "Export" -> "Arealists as labels (tif)".</li>
+    <li>A black screen will appear - these are your annotatoins, don't worry if you can't see them. Save the annotations with cmd+s.</li>
+  </ol>
+</li>
+<li>Your annotations are now held in your "DATA" folder.</li>
+<li>To push annotations to the BOSS, edit <code class="docutils literal"><span class="pre">gen_commands.py</span></code> file and input annotation file parameters.</li>
+<li>Once all inputs are filled out, type <code class="docutils literal"><span class="pre">python3</span> <span class="pre">gen_commands.py</span></code> in terminal.</li>
+<li>Paste command line output into terminal.</li>
+</ol>
+
+<h3>Analysis of Annotated images</h3>
+<ol>
+  <li>Acquire pre and post annotation images, either by pulling raw images from the BOSS and annotating them(above), or pulling both raw and annotated images.</li>
+  <li>Run SCRIPT.py to generate a stack of your annotations which are properly formatted to be visualized.</li>
+  <li>Ingest these either into the BOSS, DVID, or whatever you want.</li>
+</ol>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">NeuroData Annotation</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Richard Guo, Bijan Varjavand.
+
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+
+
+
+  </body>
+</html>
