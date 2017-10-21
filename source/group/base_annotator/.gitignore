@@ -3,7 +3,7 @@ neurodata.cfg
 __pycache__/
 *.py[cod]
 *$py.class
-DATA/
+DATA/*
 # C extensions
 *.so
 
