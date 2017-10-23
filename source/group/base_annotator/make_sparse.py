@@ -67,6 +67,7 @@ class Sparse3D():
 
     def toarray(self):
         return np.array([self[i].toarray() for i in range(self.shape[0])])
+    
 if (__name__ == '__main__'):
     annotations = get_annotations()
     sparses = make_sparse(annotations)
