@@ -105,9 +105,9 @@ def user_get_neurodata_resource(host, token):
                                   [{'name': channel, 'dtype': dtype}])
     print("Successfully Loaded Boss Resource!\n")
 
-    return myResource, channel
+    return myResource, channel, dtype
 
-def user_get_cutout(resource, channel):
+def user_get_cutout(resource, channel, dtype):
     print("\n Specify cutout, User input REQUIRED \n")
 
     z_str = get_validated_user_input("Z Range, Format: <ZSTART> <ZEND>: ", "str")
@@ -124,7 +124,7 @@ def user_get_cutout(resource, channel):
                                z_range,
                                y_range,
                                x_range)
-    return data
+    return data, dtype
 
 def user_save_data(data):
     print("\n Save Data \n")
@@ -133,13 +133,16 @@ def user_save_data(data):
     filename = get_validated_user_input("Filename (.tif recommended): ", "str")
     save_image(data_path, filename, data)
 
-def cast_uint8(data):
-    return data #4*2688*6242
+def cast_uint8(data, dtype):
+    print(data.dtype)
+    data = data.astype(dtype)
+    print(data.dtype)
+    return data
 
 
 if __name__ == '__main__':
     host, token = get_host_token()
-    myResource, channel = user_get_neurodata_resource(host, token) ## TODO: Make this less jank, figure out channel resource
-    data = user_get_cutout(myResource, channel) ##TODO: Make this less jank
-    data = cast_uint8(data) #TODO
+    myResource, channel, dtype = user_get_neurodata_resource(host, token) ## TODO: Make this less jank, figure out channel resource
+    data, dtype = user_get_cutout(myResource, channel, dtype) ##TODO: Make this less jank
+    data = cast_uint8(data, dtype) #TODO
     user_save_data(data)
