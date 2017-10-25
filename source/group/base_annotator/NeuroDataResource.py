@@ -133,9 +133,13 @@ def user_save_data(data):
     filename = get_validated_user_input("Filename (.tif recommended): ", "str")
     save_image(data_path, filename, data)
 
+def cast_uint8(data):
+    return data #4*2688*6242
+
 
 if __name__ == '__main__':
     host, token = get_host_token()
     myResource, channel = user_get_neurodata_resource(host, token) ## TODO: Make this less jank, figure out channel resource
     data = user_get_cutout(myResource, channel) ##TODO: Make this less jank
+    data = cast_uint8(data) #TODO
     user_save_data(data)
