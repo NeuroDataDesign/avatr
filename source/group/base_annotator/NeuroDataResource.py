@@ -134,9 +134,9 @@ def user_save_data(data):
     save_image(data_path, filename, data)
 
 def cast_uint8(data, dtype):
-    print(data.dtype)
+    print('Initial Type: ' + str(data.dtype))
     data = data.astype(dtype)
-    print(data.dtype)
+    print('Fixed Type: ' + str(data.dtype))
     return data
 
 
