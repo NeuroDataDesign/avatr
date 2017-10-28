@@ -121,7 +121,7 @@ def user_get_cutout(resource, channel, dtype):
     x_str = get_validated_user_input("X Range, Format: <XSTART> <XEND>: ", "str")
     x_range = [int(x) for x in x_str.split(" ")]
 
-    xyz = ' '+x_str+' '+y_str+' '+z_str+' '
+    xyz = ' '+x_str.replace(' ','-')+' '+y_str.replace(' ','-')+' '+z_str.replace(' ','-')+' '
     xyz = xyz.replace(" ", "_")
 
     print("\n Getting Cutout... \n")
