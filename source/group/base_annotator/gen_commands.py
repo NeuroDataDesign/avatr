@@ -23,16 +23,16 @@ slack_token = ""  # Slack token for sending Slack messages
 slack_username = ""  # your slack username
 
 # boss metadata
-collection = 'Look_At_It'
-experiment = 'EXP1'
-channel = 'test'
+collection = 'collman'
+experiment = 'collman15v2'
+channel = 'EM25K'
 
 # data_directory _with_ trailing slash (doesn't output correct paths on Windows)
 data_directory = "DATA/"
 
 # filename without extension (no '.tif')
 # <p:4> indicates the z index of the tif file, with up to 4 leading zeros
-file_name = "lookatit"
+file_name = "collman_collman15v2_0-520_0-520_0-16_EM25K_test"
 
 # extension name for images, supported image types are PNG and TIFF
 # extension just needs to match the filename and can be any string (e.g.: ome, tif, png)
@@ -51,19 +51,17 @@ voxel_unit = 'micrometers'
 data_type = 'uint8'
 
 # pixel extent for images in x, y and number of total z slices
-data_dimensions = "1280 720 3"
+data_dimensions = "520 520 16"
 
 # first inclusive, last _exclusive_ list of sections to ingest
 # integers, typically the same as ZZZZ "data_dimensions"
-zrange = [0, 3]
+zrange = [0, 16]
 
 # Number of workers to use
 # each worker loads additional 16 image files so watch out for out of memory errors
 workers = 1
 
-
 """ Code to generate the commands """
-
 
 def gen_comm(zstart, zend):
     cmd = "python3 " + script + " "
@@ -119,7 +117,6 @@ print('# Expected memory usage per worker {:.1f} GB'.format(mem_per_w))
 mem_tot = mem_per_w * workers
 print('# Expected total memory usage: {:.1f} GB'.format(mem_tot))
 
-
 cmd = gen_comm(zrange[0], zrange[1])
 cmd += ' --create_resources '
 print('\n' + cmd + '\n')
@@ -137,4 +134,5 @@ for worker in range(workers):
     end_z = min(zrange[1], next_z)
 
     cmd = gen_comm(start_z, end_z)
+    cmd += ' --create_resources '
     print(cmd)

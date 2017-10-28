@@ -1,0 +1,45 @@
+{"scales": [
+    {
+        "key": "0",
+        "size": [
+            8192,
+            8192,
+            194
+        ],
+        "voxel_offset": [
+            0,
+            0,
+            0
+        ],
+        "resolution": [
+            2.0,
+            2.0,
+            50.0
+        ],
+        "chunk_sizes": [[512, 512, 16]],
+        "encoding": "jpeg"
+    },
+    {
+        "key": "1",
+        "size": [
+            4096,
+            4096,
+            194
+        ],
+        "voxel_offset": [
+            0,
+            0,
+            0
+        ],
+        "resolution": [
+            4.0,
+            4.0,
+            50.0
+        ],
+        "chunk_sizes": [[512, 512, 16]],
+        "encoding": "jpeg"
+    }
+],
+"num_channels": 1,
+"data_type": "uint32",
+"type": "segmentation"}

@@ -104,25 +104,25 @@ def user_get_neurodata_resource(host, token):
                                   exp,
                                   [{'name': channel, 'dtype': dtype}])
     print("Successfully Loaded Boss Resource!\n")
+    filename = col+'_'+exp+' '+channel+'.tiff'
+    print(filename)
 
-    return myResource, channel, dtype
+    return myResource, channel, dtype, filename
 
 def user_get_cutout(resource, channel, dtype):
     print("\n Specify cutout, User input REQUIRED \n")
 
     z_str = get_validated_user_input("Z Range, Format: <ZSTART> <ZEND>: ", "str")
     z_range = [int(z) for z in z_str.split(" ")]
-    print('Z: ' + str(z_range))
 
     y_str = get_validated_user_input("Y Range, Format: <YSTART> <YEND>: ", "str")
     y_range = [int(y) for y in y_str.split(" ")]
-    print('Y: ' + str(y_range))
-
 
     x_str = get_validated_user_input("X Range, Format: <XSTART> <XEND>: ", "str")
     x_range = [int(x) for x in x_str.split(" ")]
-    print('X: ' + str(x_range))
 
+    xyz = ' '+x_str+' '+y_str+' '+z_str+' '
+    xyz = xyz.replace(" ", "_")
 
     print("\n Getting Cutout... \n")
     data = resource.get_cutout(channel,
@@ -130,13 +130,14 @@ def user_get_cutout(resource, channel, dtype):
                                y_range,
                                x_range)
 
-    return data, dtype
+    return data, dtype, xyz
 
-def user_save_data(data):
+def user_save_data(data, filename, xyz):
     print("\n Save Data \n")
 
     data_path = get_validated_user_input("Data Dir, Format: path/to/data/: ", "str")
-    filename = get_validated_user_input("Filename (.tif recommended): ", "str")
+    #filename = get_validated_user_input("Filename (.tif recommended): ", "str")
+    filename = filename.replace(' ',xyz)
     save_image(data_path, filename, data)
 
 def cast_uint8(data, dtype):
@@ -148,7 +149,7 @@ def cast_uint8(data, dtype):
 
 if __name__ == '__main__':
     host, token = get_host_token()
-    myResource, channel, dtype = user_get_neurodata_resource(host, token) ## TODO: Make this less jank, figure out channel resource
-    data, dtype = user_get_cutout(myResource, channel, dtype) ##TODO: Make this less jank
+    myResource, channel, dtype, filename = user_get_neurodata_resource(host, token) ## TODO: Make this less jank, figure out channel resource
+    data, dtype, xyz = user_get_cutout(myResource, channel, dtype) ##TODO: Make this less jank
     data = cast_uint8(data, dtype) #TODO
-    user_save_data(data)
+    user_save_data(data, filename, xyz)
