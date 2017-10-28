@@ -112,18 +112,24 @@ def user_get_cutout(resource, channel, dtype):
 
     z_str = get_validated_user_input("Z Range, Format: <ZSTART> <ZEND>: ", "str")
     z_range = [int(z) for z in z_str.split(" ")]
+    print('Z: ' + str(z_range))
 
     y_str = get_validated_user_input("Y Range, Format: <YSTART> <YEND>: ", "str")
     y_range = [int(y) for y in y_str.split(" ")]
+    print('Y: ' + str(y_range))
+
 
     x_str = get_validated_user_input("X Range, Format: <XSTART> <XEND>: ", "str")
     x_range = [int(x) for x in x_str.split(" ")]
+    print('X: ' + str(x_range))
+
 
     print("\n Getting Cutout... \n")
     data = resource.get_cutout(channel,
                                z_range,
                                y_range,
                                x_range)
+
     return data, dtype
 
 def user_save_data(data):
