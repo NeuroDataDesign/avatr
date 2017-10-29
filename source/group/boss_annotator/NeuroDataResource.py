@@ -112,18 +112,19 @@ def user_get_neurodata_resource(host, token):
                                   exp,
                                   [{'name': channel, 'dtype': dtype}])
     print("Successfully Loaded Boss Resource!\n")
-
-    ensure_dir("./"+str(col)+'/'+str(exp)+'/'+str(channel)+'/'+'{:%Y-%m-%d_%H:%M:%S}'.format(datetime.datetime.now())+'/')
-    data_path = "./"+str(col)+'/'+str(exp)+'/'+str(channel)+'/'+'{:%Y-%m-%d_%H:%M:%S}'.format(datetime.datetime.now())+'/'
+    timestamp = '{:%Y-%m-%d_%H:%M:%S}'.format(datetime.datetime.now())
+    ensure_dir("./"+str(col)+'/'+str(exp)+'/'+str(channel)+'/'+timestamp+'/')
+    data_path = "./"+str(col)+'/'+str(exp)+'/'+str(channel)+'/'+timestamp+'/'
 
     config = configparser.ConfigParser()
-    config['DEFAULT'] = {
+    config['METADATA'] = {
                         'collection':col,
                         'experiment':exp,
                         'channel':channel,
-                        'data_type':dtype
+                        'data_type':dtype,
+                        'time_stamp':timestamp
                         }
-    with open(data_path+'config.cfg', 'w') as configfile:
+    with open('config.cfg', 'w') as configfile:
         config.write(configfile)
 
     return myResource, channel, dtype, data_path
@@ -152,6 +153,14 @@ def user_get_cutout(resource, channel, dtype):
 
 def user_save_data(data_path, data, xyz):
     print("\n Save Data \n")
+
+    config = configparser.ConfigParser()
+    config['FILENAME'] = {
+                        'name':xyz+'.tiff'
+                        }
+    with open('config.cfg', 'a') as configfile:
+        config.write(configfile)
+
     save_image(data_path, xyz+'.tiff', data)
 
 def cast_uint8(data, dtype):

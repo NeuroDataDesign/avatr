@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 import shlex
+import configparser
+
 
 """ Script to generate ingest commands for ingest program """
 """ Once generated, copy commands to terminal and run them """
@@ -23,21 +25,38 @@ slack_token = ""  # Slack token for sending Slack messages
 slack_username = ""  # your slack username
 
 # boss metadata
-collection = 'ndd17_nomads'
-experiment = 'annotations_2017'
-channel = 'electron_microscopy_25K'
 
+def get_validated_user_input(prompt, type_):
+    while True:
+        ui = input(prompt)
+        if (type(ui) == type(type_)):
+            break
+        else:
+            print("Invalid input, please try again\n")
+            continue
+    return ui
+
+annotation_path = get_validated_user_input("path/to/annotation/data/: ", "str")
+annotation = get_validated_user_input("annotation name (include the .tif): ", "str")
+
+config = configparser.ConfigParser()
+config.read('config.cfg')
+
+collection = config['METADATA']['collection']
+experiment = config['METADATA']['experiment']
+channel = config['METADATA']['channel']
+data_type = config['METADATA']['data_type']
+timestamp = config['METADATA']['time_stamp']
+file_name = config['FILENAME']['name'].split('.')[0]
+file_format = config['FILENAME']['name'].split('.')[1]
 # data_directory _with_ trailing slash (doesn't output correct paths on Windows)
-data_directory = "DATA/"
-
-# filename without extension (no '.tif')
-# <p:4> indicates the z index of the tif file, with up to 4 leading zeros
-file_name = "collman_collman15v2_0-6306_0-4518_0-27_EM25K"
-
-# extension name for images, supported image types are PNG and TIFF
-# extension just needs to match the filename and can be any string (e.g.: ome, tif, png)
-file_format = 'tiff'
-
+#data_directory = "/"+collection+'/'+experiment+'/'+channel+'/'+timestamp+'/'
+collection = annotation_path.split('/')[0]
+experiment = annotation_path.split('/')[1]
+channel = annotation_path.split('/')[2]
+file_name = annotation.split('.')[0]
+file_format = annotation.split('.')[1]
+data_directory = annotation_path
 # increment of filename numbering (always increment in steps of 1 in the boss, typically will be '1')
 z_step = '1'
 
@@ -51,11 +70,16 @@ voxel_unit = 'micrometers'
 data_type = 'uint8'
 
 # pixel extent for images in x, y and number of total z slices
-data_dimensions = "6306 4518 27"
+x,y,z = config['FILENAME']['name'].split('.')[0].split('_')[:]
+print(x,y,z,type(x))
+x1 = int(x.split('-')[1])-int(x.split('-')[0])
+y1 = int(y.split('-')[1])-int(y.split('-')[0])
+z1 = int(z.split('-')[1])-int(z.split('-')[0])
+data_dimensions = str(x1)+' '+str(y1)+' '+str(z1)
 
 # first inclusive, last _exclusive_ list of sections to ingest
 # integers, typically the same as ZZZZ "data_dimensions"
-zrange = [0, 27]
+zrange = [int(z.split('-')[0]),int(z.split('-')[1])]
 
 # Number of workers to use
 # each worker loads additional 16 image files so watch out for out of memory errors
@@ -117,9 +141,13 @@ print('# Expected memory usage per worker {:.1f} GB'.format(mem_per_w))
 mem_tot = mem_per_w * workers
 print('# Expected total memory usage: {:.1f} GB'.format(mem_tot))
 
-cmd = gen_comm(zrange[0], zrange[1])
-cmd += ' --create_resources '
-print('\n' + cmd + '\n')
+
+
+
+
+#cmd = gen_comm(zrange[0], zrange[1])
+#cmd += ' --create_resources '
+#print('\n' + cmd + '\n')
 
 for worker in range(workers):
     start_z = max((worker * range_per_worker +
