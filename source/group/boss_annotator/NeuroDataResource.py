@@ -113,8 +113,8 @@ def user_get_neurodata_resource(host, token):
                                   [{'name': channel, 'dtype': dtype}])
     print("Successfully Loaded Boss Resource!\n")
     timestamp = '{:%Y-%m-%d_%H:%M:%S}'.format(datetime.datetime.now())
-    ensure_dir("./"+str(col)+'/'+str(exp)+'/'+str(channel)+'/'+timestamp+'/')
-    data_path = "./"+str(col)+'/'+str(exp)+'/'+str(channel)+'/'+timestamp+'/'
+    ensure_dir("./DATA/"+str(col)+'/'+str(exp)+'/'+str(channel)+'/'+timestamp+'/')
+    data_path = "./DATA/"+str(col)+'/'+str(exp)+'/'+str(channel)+'/'+timestamp+'/'
 
     config = configparser.ConfigParser()
     config['METADATA'] = {
