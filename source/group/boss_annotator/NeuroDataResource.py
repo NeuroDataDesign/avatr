@@ -116,13 +116,29 @@ def user_get_neurodata_resource(host, token):
     ensure_dir("./DATA/"+str(col)+'/'+str(exp)+'/'+str(channel)+'/'+timestamp+'/')
     data_path = "./DATA/"+str(col)+'/'+str(exp)+'/'+str(channel)+'/'+timestamp+'/'
 
+    print("\n Specify Annotation Resource, User input REQUIRED \n")
+    ann_col = get_validated_user_input("Annotation Collection: ", "str")
+    ann_exp = get_validated_user_input("Annotation Experiment: ", "str")
+    ann_channel = get_validated_user_input("Annotation Channel: ", "str")
+    ann_dtype = 'uint64'
+    ensure_dir("./DATA/"+str(ann_col)+'/'+str(ann_exp)+'/'+str(ann_channel)+'/')
+    ann_path = "./DATA/"+str(ann_col)+'/'+str(ann_exp)+'/'+str(ann_channel)+'/'
+
     config = configparser.ConfigParser()
     config['METADATA'] = {
                         'collection':col,
                         'experiment':exp,
                         'channel':channel,
                         'data_type':dtype,
+                        'path':data_path,
                         'time_stamp':timestamp
+                        }
+    config['ANN_METADATA'] = {
+                        'collection':ann_col,
+                        'experiment':ann_exp,
+                        'channel':ann_channel,
+                        'data_type':ann_dtype,
+                        'path':ann_path,
                         }
     with open('config.cfg', 'w') as configfile:
         config.write(configfile)

@@ -36,27 +36,24 @@ def get_validated_user_input(prompt, type_):
             continue
     return ui
 
-annotation_path = get_validated_user_input("path/to/annotation/data/: ", "str")
-annotation = get_validated_user_input("annotation name (include the .tif): ", "str")
-
 config = configparser.ConfigParser()
 config.read('config.cfg')
 
-collection = config['METADATA']['collection']
-experiment = config['METADATA']['experiment']
-channel = config['METADATA']['channel']
-data_type = config['METADATA']['data_type']
-timestamp = config['METADATA']['time_stamp']
+annotation_path = config['ANN_METADATA']['path']
+
+collection = config['ANN_METADATA']['collection']
+experiment = config['ANN_METADATA']['experiment']
+channel = config['ANN_METADATA']['channel']
+#data_type = config['METADATA']['data_type']
+#timestamp = config['METADATA']['time_stamp']
 file_name = config['FILENAME']['name'].split('.')[0]
 file_format = config['FILENAME']['name'].split('.')[1]
 # data_directory _with_ trailing slash (doesn't output correct paths on Windows)
 #data_directory = "/"+collection+'/'+experiment+'/'+channel+'/'+timestamp+'/'
-collection = annotation_path.split('/')[0]
-experiment = annotation_path.split('/')[1]
-channel = annotation_path.split('/')[2]
-file_name = annotation.split('.')[0]
-file_format = annotation.split('.')[1]
+collection = config['ANN_METADATA']['collection']
 data_directory = annotation_path
+
+'''EDIT THE BELOW PARAMETERS IF YOU KNOW WHAT YOU ARE DOING'''
 # increment of filename numbering (always increment in steps of 1 in the boss, typically will be '1')
 z_step = '1'
 
@@ -67,7 +64,7 @@ voxel_size = '1 1 1'
 voxel_unit = 'micrometers'
 
 # uint8 or uint16 for image channels, uint64 for annotations
-data_type = 'uint8'
+data_type = 'uint64'
 
 # pixel extent for images in x, y and number of total z slices
 x,y,z = config['FILENAME']['name'].split('.')[0].split('_')[:]
