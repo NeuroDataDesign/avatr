@@ -5,6 +5,9 @@ from intern.remote.boss import BossRemote
 from intern.resource.boss.resource import ChannelResource
 import cmd
 import sys
+import os, errno
+import datetime
+import configparser
 
 class NeuroDataResource:
     def __init__(self, host, token, collection, experiment, chanList):
@@ -88,6 +91,11 @@ def get_validated_user_input(prompt, type_):
             continue
     return ui
 
+def ensure_dir(file_path):
+    directory = os.path.dirname(file_path)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
 def user_get_neurodata_resource(host, token):
     print("\n Specify Boss Resource, User input REQUIRED \n")
 
@@ -104,25 +112,35 @@ def user_get_neurodata_resource(host, token):
                                   exp,
                                   [{'name': channel, 'dtype': dtype}])
     print("Successfully Loaded Boss Resource!\n")
-    filename = col+'_'+exp+' '+channel+'.tiff'
-    print(filename)
 
-    return myResource, channel, dtype, filename
+    ensure_dir("./"+str(col)+'/'+str(exp)+'/'+str(channel)+'/'+'{:%Y-%m-%d_%H:%M:%S}'.format(datetime.datetime.now())+'/')
+    data_path = "./"+str(col)+'/'+str(exp)+'/'+str(channel)+'/'+'{:%Y-%m-%d_%H:%M:%S}'.format(datetime.datetime.now())+'/'
+
+    config = configparser.ConfigParser()
+    config['DEFAULT'] = {
+                        'collection':col,
+                        'experiment':exp,
+                        'channel':channel,
+                        'data_type':dtype
+                        }
+    with open(data_path+'config.cfg', 'w') as configfile:
+        config.write(configfile)
+
+    return myResource, channel, dtype, data_path
 
 def user_get_cutout(resource, channel, dtype):
     print("\n Specify cutout, User input REQUIRED \n")
 
-    z_str = get_validated_user_input("Z Range, Format: <ZSTART> <ZEND>: ", "str")
-    z_range = [int(z) for z in z_str.split(" ")]
+    x_str = get_validated_user_input("X Range, Format: <XSTART> <XEND>: ", "str")
+    x_range = [int(x) for x in x_str.split(" ")]
 
     y_str = get_validated_user_input("Y Range, Format: <YSTART> <YEND>: ", "str")
     y_range = [int(y) for y in y_str.split(" ")]
 
-    x_str = get_validated_user_input("X Range, Format: <XSTART> <XEND>: ", "str")
-    x_range = [int(x) for x in x_str.split(" ")]
+    z_str = get_validated_user_input("Z Range, Format: <ZSTART> <ZEND>: ", "str")
+    z_range = [int(z) for z in z_str.split(" ")]
 
-    xyz = ' '+x_str.replace(' ','-')+' '+y_str.replace(' ','-')+' '+z_str.replace(' ','-')+' '
-    xyz = xyz.replace(" ", "_")
+    xyz = x_str.replace(' ','-')+'_'+y_str.replace(' ','-')+'_'+z_str.replace(' ','-')
 
     print("\n Getting Cutout... \n")
     data = resource.get_cutout(channel,
@@ -132,13 +150,9 @@ def user_get_cutout(resource, channel, dtype):
 
     return data, dtype, xyz
 
-def user_save_data(data, filename, xyz):
+def user_save_data(data_path, data, xyz):
     print("\n Save Data \n")
-
-    data_path = get_validated_user_input("Data Dir, Format: path/to/data/: ", "str")
-    #filename = get_validated_user_input("Filename (.tif recommended): ", "str")
-    filename = filename.replace(' ',xyz)
-    save_image(data_path, filename, data)
+    save_image(data_path, xyz+'.tiff', data)
 
 def cast_uint8(data, dtype):
     print('Initial Type: ' + str(data.dtype))
@@ -149,7 +163,7 @@ def cast_uint8(data, dtype):
 
 if __name__ == '__main__':
     host, token = get_host_token()
-    myResource, channel, dtype, filename = user_get_neurodata_resource(host, token) ## TODO: Make this less jank, figure out channel resource
+    myResource, channel, dtype, data_path = user_get_neurodata_resource(host, token) ## TODO: Make this less jank, figure out channel resource
     data, dtype, xyz = user_get_cutout(myResource, channel, dtype) ##TODO: Make this less jank
     data = cast_uint8(data, dtype) #TODO
-    user_save_data(data, filename, xyz)
+    user_save_data(data_path,data, xyz)
