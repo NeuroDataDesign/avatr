@@ -137,7 +137,6 @@ def user_get_neurodata_resource(host, token):
                         'collection':ann_col,
                         'experiment':ann_exp,
                         'channel':ann_channel,
-                        'data_type':ann_dtype,
                         'path':ann_path,
                         }
     with open('config.cfg', 'w') as configfile:
@@ -172,12 +171,13 @@ def user_save_data(data_path, data, xyz):
 
     config = configparser.ConfigParser()
     config['FILENAME'] = {
-                        'name':xyz+'.tiff'
+                        'name':xyz+'.tif',
+                        'ann_name':xyz+'.tif'
                         }
     with open('config.cfg', 'a') as configfile:
         config.write(configfile)
 
-    save_image(data_path, xyz+'.tiff', data)
+    save_image(data_path, xyz+'.tif', data)
 
 def cast_uint8(data, dtype):
     print('Initial Type: ' + str(data.dtype))

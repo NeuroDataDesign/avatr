@@ -2,6 +2,8 @@
 
 import shlex
 import configparser
+import numpy as np
+from  skimage import io
 
 
 """ Script to generate ingest commands for ingest program """
@@ -36,50 +38,39 @@ def get_validated_user_input(prompt, type_):
             continue
     return ui
 
+def cast_type(data, dtype):
+    print('Initial Type: ' + str(data.dtype))
+    data = data.astype(dtype)
+    print('Fixed Type: ' + str(data.dtype))
+    return data
+
 config = configparser.ConfigParser()
 config.read('config.cfg')
 
-annotation_path = config['ANN_METADATA']['path']
+collection=config['ANN_METADATA']['collection']
+experiment=config['ANN_METADATA']['experiment']
+channel=config['ANN_METADATA']['channel']
+data_directory=config['ANN_METADATA']['path']
+file_name=config['FILENAME']['ann_name'].split('.')[0]
+file_format=config['FILENAME']['ann_name'].split('.')[1]
+####################################
+data_type = 'uint8'
+####################################
+'''data_dimensions'''
+x,y,z = config['FILENAME']['ann_name'].split('.')[0].split('_')[:]#1x3 vector, x = '0-1280', y = '0-720', z = '0-2'
+x1 = str(int(x.split('-')[1])-int(x.split('-')[0]))
+y1 = str(int(y.split('-')[1])-int(y.split('-')[0]))
+z1 = str(int(z.split('-')[1])-int(z.split('-')[0]))
+data_dimensions = x1+' '+y1+' '+z1
+####################################
+zrange = [int(z.split('-')[0]),int(z.split('-')[1])]
+####################################
 
-collection = config['ANN_METADATA']['collection']
-experiment = config['ANN_METADATA']['experiment']
-channel = config['ANN_METADATA']['channel']
-#data_type = config['METADATA']['data_type']
-#timestamp = config['METADATA']['time_stamp']
-file_name = config['FILENAME']['name'].split('.')[0]
-file_format = config['FILENAME']['name'].split('.')[1]
-# data_directory _with_ trailing slash (doesn't output correct paths on Windows)
-#data_directory = "/"+collection+'/'+experiment+'/'+channel+'/'+timestamp+'/'
-collection = config['ANN_METADATA']['collection']
-data_directory = annotation_path
-
-'''EDIT THE BELOW PARAMETERS IF YOU KNOW WHAT YOU ARE DOING'''
-# increment of filename numbering (always increment in steps of 1 in the boss, typically will be '1')
+'''DONT TOUCH BELOW HERE PLEASE'''
 z_step = '1'
-
-# float or int supported
 voxel_size = '1 1 1'
-
-# nanometers/micrometers/millimeters/centimeters
 voxel_unit = 'micrometers'
 
-# uint8 or uint16 for image channels, uint64 for annotations
-data_type = 'uint64'
-
-# pixel extent for images in x, y and number of total z slices
-x,y,z = config['FILENAME']['name'].split('.')[0].split('_')[:]
-print(x,y,z,type(x))
-x1 = int(x.split('-')[1])-int(x.split('-')[0])
-y1 = int(y.split('-')[1])-int(y.split('-')[0])
-z1 = int(z.split('-')[1])-int(z.split('-')[0])
-data_dimensions = str(x1)+' '+str(y1)+' '+str(z1)
-
-# first inclusive, last _exclusive_ list of sections to ingest
-# integers, typically the same as ZZZZ "data_dimensions"
-zrange = [int(z.split('-')[0]),int(z.split('-')[1])]
-
-# Number of workers to use
-# each worker loads additional 16 image files so watch out for out of memory errors
 workers = 1
 
 """ Code to generate the commands """
