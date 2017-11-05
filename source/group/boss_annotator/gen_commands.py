@@ -59,6 +59,7 @@ data_type = 'uint8'
 data = io.imread(data_directory+file_name+'.'+file_format)
 cast_data = cast_type(data, data_type)
 io.imsave(data_directory+file_name+'_0.'+file_format, cast_data)
+
 ####################################
 '''data_dimensions'''
 x,y,z = config['FILENAME']['ann_name'].split('.')[0].split('_')[:]#1x3 vector, x = '0-1280', y = '0-720', z = '0-2'
