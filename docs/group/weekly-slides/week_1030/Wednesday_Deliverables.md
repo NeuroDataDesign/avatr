@@ -23,4 +23,4 @@
 
 -*Goal*: Start planning out next sprint's work. Maybe not a huge priority right now?   
 -*Definition of Done*: Rough draft of components needed in NeuroData LIMS.  
--*Importance*: This is probably going to be our main deliverable for the rest of the semester. Might be a good idea to start thinking about it now if we have time.  
+-*Importance*: This is probably going to be our main deliverable for the rest of the semester. Might be a good idea to start thinking about it now if we have time.   
