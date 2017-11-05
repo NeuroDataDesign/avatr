@@ -72,12 +72,15 @@ def get_img_info(img_fname, s3_res=None, s3_bucket_name=None):
     if isinstance(im_mode, (tuple)):  # tiff files
         im_mode = im_mode[0]
     im_dtype = im_mode[0:4]
+    '''
     if im_dtype == 'I;16':
         datatype = 'uint16'
     elif im_dtype == 'L':
         datatype = 'uint8'
     else:
         datatype = 'uint8'
+    '''
+    datatype = 'uint8'
     return (width, height, datatype)
 
 

@@ -4,13 +4,22 @@ import shlex
 import configparser
 import numpy as np
 from  skimage import io
-
+import os
 
 """ Script to generate ingest commands for ingest program """
 """ Once generated, copy commands to terminal and run them """
 
 """ Recommend copy this to a new location for editing """
 
+def get_validated_user_input(prompt, type_):
+    while True:
+        ui = input(prompt)
+        if (type(ui) == type(type_)):
+            break
+        else:
+            print("Invalid input, please try again\n")
+            continue
+    return ui
 
 script = "ingest_large_vol.py"
 
@@ -28,20 +37,11 @@ slack_username = ""  # your slack username
 
 # boss metadata
 
-def get_validated_user_input(prompt, type_):
-    while True:
-        ui = input(prompt)
-        if (type(ui) == type(type_)):
-            break
-        else:
-            print("Invalid input, please try again\n")
-            continue
-    return ui
-
 def cast_type(data, dtype):
-    print('Initial Type: ' + str(data.dtype))
-    data = data.astype(dtype)
-    print('Fixed Type: ' + str(data.dtype))
+    #print('Initial Type: ' + str(data.dtype))
+    #data = data.astype(dtype)
+    data[data>0] = 254
+    #print('Fixed Type: ' + str(data.dtype))
     return data
 
 config = configparser.ConfigParser()
@@ -55,6 +55,10 @@ file_name=config['FILENAME']['ann_name'].split('.')[0]
 file_format=config['FILENAME']['ann_name'].split('.')[1]
 ####################################
 data_type = 'uint8'
+
+data = io.imread(data_directory+file_name+'.'+file_format)
+cast_data = cast_type(data, data_type)
+io.imsave(data_directory+file_name+'_0.'+file_format, cast_data)
 ####################################
 '''data_dimensions'''
 x,y,z = config['FILENAME']['ann_name'].split('.')[0].split('_')[:]#1x3 vector, x = '0-1280', y = '0-720', z = '0-2'
@@ -152,3 +156,5 @@ for worker in range(workers):
     cmd = gen_comm(start_z, end_z)
     cmd += ' --create_resources '
     print(cmd)
+    print('Running command...\n')
+    os.system(cmd)

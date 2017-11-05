@@ -112,7 +112,7 @@ def user_get_neurodata_resource(host, token):
                                   exp,
                                   [{'name': channel, 'dtype': dtype}])
     print("Successfully Loaded Boss Resource!\n")
-    timestamp = '{:%Y-%m-%d_%H:%M:%S}'.format(datetime.datetime.now())
+    timestamp = '{:%Y-%m-%d_%H-%M-%S}'.format(datetime.datetime.now())
     ensure_dir("./DATA/"+str(col)+'/'+str(exp)+'/'+str(channel)+'/'+timestamp+'/')
     data_path = "./DATA/"+str(col)+'/'+str(exp)+'/'+str(channel)+'/'+timestamp+'/'
 
@@ -179,7 +179,7 @@ def user_save_data(data_path, data, xyz):
 
     save_image(data_path, xyz+'.tif', data)
 
-def cast_uint8(data, dtype):
+def cast_type(data, dtype):
     print('Initial Type: ' + str(data.dtype))
     data = data.astype(dtype)
     print('Fixed Type: ' + str(data.dtype))
@@ -190,5 +190,5 @@ if __name__ == '__main__':
     host, token = get_host_token()
     myResource, channel, dtype, data_path = user_get_neurodata_resource(host, token) ## TODO: Make this less jank, figure out channel resource
     data, dtype, xyz = user_get_cutout(myResource, channel, dtype) ##TODO: Make this less jank
-    data = cast_uint8(data, dtype) #TODO
+    data = cast_type(data, dtype) #TODO
     user_save_data(data_path,data, xyz)
