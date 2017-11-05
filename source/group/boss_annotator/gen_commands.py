@@ -156,5 +156,5 @@ for worker in range(workers):
     cmd = gen_comm(start_z, end_z)
     cmd += ' --create_resources '
     print(cmd)
-    print('Running command...\n')
+    print('\n')
     os.system(cmd)
