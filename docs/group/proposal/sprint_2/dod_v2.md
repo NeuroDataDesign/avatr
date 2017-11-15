@@ -30,7 +30,7 @@ Thorough documentation outlining how each feature in the LIMS works will be up i
 Have at least two tech evaluations on current pipeline logging tools (StackDriver, DataJoin?). Demo running pipeline on Eric's data and results being logged correctly.
 
 
-*This is a great start.  But we need to specify which datasets will be incorporated into the LIMS system.  I would say we should start with data that already exist.  In particular, every [graph](http://openconnecto.me/graphs/) and [image](https://neurodata.io/data/).  If all those data are in at the end of Sprint 2, this is success of having build a LIMS. *
+*This is a great start.  But we need to specify which datasets will be incorporated into the LIMS system.  I would say we should start with data that already exist.  In particular, every [graph](http://openconnecto.me/graphs/) and [image](https://neurodata.io/data/).  If all those data are in at the end of Sprint 2, this is success of having build a LIMS.*
 
 *Note that an even better success is for the neurodata.io webpage to use your LIMS system to query and get links to all the information it needs.  Doing so requires, however, integration with neurodata.io, so I would not scope it necessarily for this semester.*
 
