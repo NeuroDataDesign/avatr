@@ -34,4 +34,4 @@ Thorough documentation outlining how each feature in the LIMS works will be up i
 
 ## Explore pipeline logging tools and implement basic pipeline logging for Eric's data    
 **Definition of Done**:  
-Have at least two tech evaluations on current pipeline logging tools (StackDriver, DataJoin?). Demo running pipeline on Eric's data and results being logged correctly.
+Have at least two tech evaluations on current pipeline logging tools (StackDriver, DataJoin?). Reach: Demo running pipeline on Eric's data and results being logged correctly.
