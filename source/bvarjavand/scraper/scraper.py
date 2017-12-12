@@ -1,6 +1,9 @@
 import sys
 import requests
 from bs4 import BeautifulSoup as bs
+#dynamic scraping boiz!!!
+import time
+from selenium import webdriver
 #cheating a little with URLs
 #looking at m2g.io, we have these repos
 url_dwi = "https://raw.githubusercontent.com/neurodata/mri.neurodata.io/master/table_dwi.html"
@@ -57,7 +60,7 @@ def dynamic_scrape(data):
             if 's3' in group[link] and 'csv' not in group[link] and 'git' not in group[link]:
                 browser.get(group[link]) #navigate to the page
                 print("OPENED")
-                time.sleep(.1) #wait for .5 seconds(kind of jank)
+                time.sleep(.1) #wait for .1 seconds(kind of jank)
                 innerHTML = browser.execute_script("return document.body.innerHTML") #returns the inner HTML as a string
                 print("SCRAPED")
                 inner_soup = bs(innerHTML, 'lxml')
