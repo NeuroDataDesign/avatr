@@ -4,6 +4,9 @@ from bs4 import BeautifulSoup as bs
 #dynamic scraping boiz!!!
 import time
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 def m2g_scrape(url): #returns a dictionary
     #{'DWI' : {'BNU1':{'Aligned Images':'link',
@@ -111,7 +114,7 @@ def dive_deeper(data):
                 for link in data2[scan][dataset][derivative]:
                     if link[1][-1] == '/':
                         browser.get(link[1])
-                        time.sleep(.5) #wait for .25 seconds(kind of jank)
+                        time.sleep(1) #wait for .25 seconds(kind of jank)
                         innerHTML = browser.execute_script("return document.body.innerHTML")
                         soup = bs(innerHTML, 'lxml')
                         link[1] = [[link2.text,link2['href']]\
