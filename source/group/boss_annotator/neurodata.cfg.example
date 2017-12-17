@@ -1,4 +1,0 @@
-[Default]
-protocol = https
-host = api.boss.neurodata.io
-token = TOKEN

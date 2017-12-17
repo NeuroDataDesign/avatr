@@ -1,0 +1,93 @@
+<html>
+        <head>
+                <title>Boss Annotater</title>
+        </head>
+        <body>
+                <h1>Pull Data from the Boss</h1>
+                <hr>
+<form action="/pull_tif" method="post">
+	<div>
+		<label for="Msg">Your Collection:</label>
+    		<input type="text" name="collection" />
+	</div>
+	<div>
+    		<label for="Msg">Your Experiment:</label>
+    		<input type="text" name="experiment" />
+	</div>
+	<div>
+    		<label for="Msg">Your Channel:</label>
+    		<input type="text" name="channel" />
+	</div>
+	<div>
+    		<label for="Msg">Your Datatype:</label>
+    		<input type="text" name="datatype" />
+	</div>
+	<div>
+    		<label for="Msg">X Range Start:</label>
+    		<input type="text" name="xstart" />
+    		<label for="Msg">X Range Stop:</label>
+    		<input type="text" name="xstop" />
+	</div>
+	<div>
+    		<label for="Msg">Y Range Start:</label>
+    		<input type="text" name="ystart" />
+    		<label for="Msg">Y Range Stop:</label>
+    		<input type="text" name="ystop" />
+	</div>
+	<div>
+    		<label for="Msg">Z Range Start:</label>
+    		<input type="text" name="zstart" />
+    		<label for="Msg">Z Range Stop:</label>
+    		<input type="text" name="zstop" />
+	</div>
+	<div>
+		<button type="submit">Pull Data</button>
+	</div>
+</form>
+                <h1>Push Annotations to the Boss</h1>
+                <hr>
+<form action="/push_tif" method="post">
+	<div>
+		<label>Your File:</label>
+		<input type = "file" name = "file" />
+	</div>
+	<div>
+		<label for="Msg">Your Collection:</label>
+    		<input type="text" name="collection" />
+	</div>
+	<div>
+    		<label for="Msg">Your Experiment:</label>
+    		<input type="text" name="experiment" />
+	</div>
+	<div>
+    		<label for="Msg">Your Channel:</label>
+    		<input type="text" name="channel" />
+	</div>
+	<div>
+    		<label for="Msg">Your Datatype:</label>
+    		<input type="text" name="datatype" />
+	</div>
+	<div>
+    		<label for="Msg">X Range Start:</label>
+    		<input type="text" name="xstart" />
+    		<label for="Msg">X Range Stop:</label>
+    		<input type="text" name="xstop" />
+	</div>
+	<div>
+    		<label for="Msg">Y Range Start:</label>
+    		<input type="text" name="ystart" />
+    		<label for="Msg">Y Range Stop:</label>
+    		<input type="text" name="ystop" />
+	</div>
+	<div>
+    		<label for="Msg">Z Range Start:</label>
+    		<input type="text" name="zstart" />
+    		<label for="Msg">Z Range Stop:</label>
+    		<input type="text" name="zstop" />
+	</div>
+	<div>
+		<button type="submit">Push Tif</button>
+	</div>
+</form>
+        </body>
+</html>

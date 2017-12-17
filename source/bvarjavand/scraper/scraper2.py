@@ -4,9 +4,11 @@ from bs4 import BeautifulSoup as bs
 #dynamic scraping boiz!!!
 import time
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+#from selenium.webdriver.common.by import By
+#from selenium.webdriver.support.ui import WebDriverWait
+#from selenium.webdriver.support import expected_conditions as EC
+
+import pickle
 
 def m2g_scrape(url): #returns a dictionary
     #{'DWI' : {'BNU1':{'Aligned Images':'link',
@@ -156,6 +158,7 @@ if __name__ == '__main__':
     data2 = dive_deeper(data)
     data2['FMRI']['NKI1']['Preproc Images'] = data2['FMRI']['NKI1'].pop('Preproc. Images')
     #print(scrape['DWI']['BNU1']['Aligned Images'])
+    pickle.dump( data2, open( "data.p", "wb" ) )
     for scan in data2.keys():
         #print(key + '--------------')
         #print(scrape[key])
