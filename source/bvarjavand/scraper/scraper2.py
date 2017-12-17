@@ -20,7 +20,7 @@ def m2g_scrape(url): #returns a dictionary
     print("STARTING SESSION")
     browser.get(url) #navigate to the page
     print("OPENED")
-    time.sleep(.25) #wait for .25 seconds(kind of jank)
+    time.sleep(1) #wait for .25 seconds(kind of jank)
     innerHTML = browser.execute_script("return document.body.innerHTML") #returns the inner HTML as a string
     print("SCRAPED")
     browser.close()
@@ -72,25 +72,69 @@ def m2g_data_scrape(scrape): #converts links to s3, to list of links to data
                 #print(scan, dataset, derivative, '~~~~~~~~~~~')
                 #print(data[scan][dataset][derivative])
                 if 'http' in data[scan][dataset][derivative]:
-                    browser.get(data[scan][dataset][derivative]) #navigate to the page
-                    #print("OPENED")
-                    time.sleep(.25) #wait for .25 seconds(kind of jank)
-                    innerHTML = browser.execute_script("return document.body.innerHTML") #returns the inner HTML as a string
-                    #print("SCRAPED")
-
-                    soup = bs(innerHTML, 'lxml')#soupify
-                    links = [[link.text,link['href']] for link in soup.find_all('a') if 's3' in link['href']]
+                    browser.get(data[scan][dataset][derivative])
+                    time.sleep(1) #wait for .25 seconds(kind of jank)
+                    innerHTML = browser.execute_script("return document.body.innerHTML")
+                    soup = bs(innerHTML, 'lxml')
+                    #links = [[link.text,data[scan][dataset][derivative]+link['href']]\
+                    #for link in soup.find_all('a')[1:]]
+                    links = [[link.text,data[scan][dataset][derivative]+link['href']]\
+                              for link in soup.find_all('a')[1:]]
                     data[scan][dataset][derivative] = links
-
+                    '''
+                    for link in links:
+                        if 's3' not in link[1]:
+                            print(link[1])
+                            browser.get(link[1])
+                            time.sleep(.5) #wait for .25 seconds(kind of jank)
+                            innerHTML = browser.execute_script("return document.body.innerHTML")
+                            soup2 = bs(innerHTML, 'lxml')
+                            dublinks = [[dublink.text,dublink['href']]\
+                                     for dublink in soup2.find_all('a')[1:]]
+                            data[scan][dataset][derivative+'.'+link[0]] = dublinks
+                        else:
+                            data[scan][dataset][derivative] = links
+                            break
+                    '''
     browser.close()
     print("CLOSED")
 
     return data
 
-if __name__ == '__main__':
+def dive_deeper(data):
+    data2 = data
+    browser = webdriver.Chrome()
+    print("STARTING SESSION")
+    for scan in data2.keys():
+        for dataset in data2[scan].keys():
+            for derivative in data2[scan][dataset].keys():
+                for link in data2[scan][dataset][derivative]:
+                    if link[1][-1] == '/':
+                        browser.get(link[1])
+                        time.sleep(.5) #wait for .25 seconds(kind of jank)
+                        innerHTML = browser.execute_script("return document.body.innerHTML")
+                        soup = bs(innerHTML, 'lxml')
+                        link[1] = [[link2.text,link2['href']]\
+                                   for link2 in soup.find_all('a')[1:]]
+    browser.close()
+    print('CLOSED')
+    for scan in data.keys():
+        for dataset in data2[scan].keys():
+            for derivative in data2[scan][dataset].copy():
+                #print('DERIVATIVE ______ ' + str(derivative) + ': ' + str(len(derivative)))
+                #print(data2[scan][dataset][derivative][0][0])
+                if len(data2[scan][dataset][derivative][0])>0 and data2[scan][dataset][derivative][0][0][-1] == '/':
+                    for subderivative in data2[scan][dataset][derivative]:
+                        #print('...~~~~~~~~~~~...')
+                        #print(subderivative)
+                        data2[scan][dataset][derivative+'.'+subderivative[0][:-1]] = subderivative[1]
+                    data2[scan][dataset].pop(derivative)
+    return data2
+
+def notebook():
     scrape = m2g_scrape('https://m2g.io')
     data = m2g_data_scrape(scrape)
-    #print(scrape['DWI']['BNU1']['Aligned Images'])
+    data2 = dive_deeper(data)
     for scan in data.keys():
         #print(key + '--------------')
         #print(scrape[key])
@@ -99,4 +143,22 @@ if __name__ == '__main__':
             for derivative in data[scan][dataset].keys():
                 print(derivative)
                 for link in data[scan][dataset][derivative][:5]:
+                    print('   ~~ ' + str(link))
+    return data
+
+if __name__ == '__main__':
+    scrape = m2g_scrape('https://m2g.io')
+    #data = m2g_data_scrape({'FMRI':scrape['FMRI']})
+    data = m2g_data_scrape(scrape)
+    data2 = dive_deeper(data)
+    data2['FMRI']['NKI1']['Preproc Images'] = data2['FMRI']['NKI1'].pop('Preproc. Images')
+    #print(scrape['DWI']['BNU1']['Aligned Images'])
+    for scan in data2.keys():
+        #print(key + '--------------')
+        #print(scrape[key])
+        for dataset in data2[scan].keys():
+            print(dataset + ':~~~~')
+            for derivative in data2[scan][dataset].keys():
+                print(derivative)
+                for link in data2[scan][dataset][derivative][:5]:
                     print('   ~~ ' + str(link))
