@@ -1,0 +1,36 @@
+Resources set up. Collection: ndd17_nomads, Experiment: web_test, Channel: web_1
+2017-12-18 18:51:30 Reading image data (z range: 0:2)
+2017-12-18 18:51:31 Finished reading image data
+2017-12-18 18:51:31 POST succeeded in 0.36 sec. Coll: ndd17_nomads, Exp: web_test, Ch: web_1, x: (0, 100), y: (0, 100), z: (0, 2)
+Checking to make sure data has been POSTed correctly
+2017-12-18 18:51:31 Reading image data (z range: 1:2)
+2017-12-18 18:51:31 Finished reading image data
+2017-12-18 18:51:31 Getting random z slice from BOSS for comparison
+2017-12-18 18:51:37 Z slice from BOSS downloaded
+Test slice 1 in Boss matches file DATA/0-100_0-100_0-2.tif
+2017-12-18 18:51:37 Finished z slices [0, 2] for Collection: ndd17_nomads, Experiment: web_test, Channel: web_1
+View properties of channel and start downsample job on ndwebtools: http://ben-dev.neurodata.io/channel_detail/ndd17_nomads/web_test/web_1/
+Resources set up. Collection: ndd17_nomads, Experiment: web_test, Channel: web_1
+2017-12-19 15:16:02 Reading image data (z range: 0:2)
+2017-12-19 15:16:02 Finished reading image data
+2017-12-19 15:16:03 POST succeeded in 1.02 sec. Coll: ndd17_nomads, Exp: web_test, Ch: web_1, x: (0, 100), y: (0, 100), z: (0, 2)
+Checking to make sure data has been POSTed correctly
+2017-12-19 15:16:03 Reading image data (z range: 1:2)
+2017-12-19 15:16:03 Finished reading image data
+2017-12-19 15:16:03 Getting random z slice from BOSS for comparison
+2017-12-19 15:16:09 Z slice from BOSS downloaded
+Test slice 1 in Boss matches file DATA/0-100_0-100_0-2.tif
+2017-12-19 15:16:09 Finished z slices [0, 2] for Collection: ndd17_nomads, Experiment: web_test, Channel: web_1
+View properties of channel and start downsample job on ndwebtools: http://ben-dev.neurodata.io/channel_detail/ndd17_nomads/web_test/web_1/
+Resources set up. Collection: ndd17_nomads, Experiment: web_test, Channel: web_0
+2017-12-19 15:27:45 Reading image data (z range: 0:10)
+2017-12-19 15:27:45 Finished reading image data
+2017-12-19 15:27:46 POST succeeded in 0.41 sec. Coll: ndd17_nomads, Exp: web_test, Ch: web_0, x: (0, 500), y: (0, 500), z: (0, 10)
+Checking to make sure data has been POSTed correctly
+2017-12-19 15:27:46 Reading image data (z range: 4:5)
+2017-12-19 15:27:46 Finished reading image data
+2017-12-19 15:27:46 Getting random z slice from BOSS for comparison
+2017-12-19 15:27:51 Z slice from BOSS downloaded
+Test slice 4 in Boss matches file DATA/0-500_0-500_0-10.tif
+2017-12-19 15:27:51 Finished z slices [0, 10] for Collection: ndd17_nomads, Experiment: web_test, Channel: web_0
+View properties of channel and start downsample job on ndwebtools: http://ben-dev.neurodata.io/channel_detail/ndd17_nomads/web_test/web_0/
